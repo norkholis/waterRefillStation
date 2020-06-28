@@ -86,16 +86,22 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         })
 
         btn_enough.setOnClickListener {
-            if(isPumpOneOpened){
+            if(isPumpOneOpened || isPumpTwoOpened || isPumpThreeOpened){
                 pumpOne.setValue("Off")
-                initScanner()
-            }else if(isPumpTwoOpened){
                 pumpTwo.setValue("Off")
-                initScanner()
-            }else if (isPumpThreeOpened){
                 pumpThree.setValue("Off")
-                initScanner()
+                mScannerView.startCamera()
             }
+//            if(isPumpOneOpened){
+//                pumpOne.setValue("Off")
+//                mScannerView.startCamera()
+//            }else if(isPumpTwoOpened){
+//                pumpTwo.setValue("Off")
+//                mScannerView.startCamera()
+//            }else if (isPumpThreeOpened){
+//                pumpThree.setValue("Off")
+//                mScannerView.startCamera()
+//            }
         }
 
     }
