@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     val pumpTwo = myRef.child("pump_two").child("status")
     val pumpThree = myRef.child("pump_three").child("status")
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                     "Off" -> isPumpOneOpened = false
                     "On" -> isPumpOneOpened = true
                 }
+                initDefaultView()
             }
 
         })
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                     "Off" -> isPumpTwoOpened = false
                     "On" -> isPumpTwoOpened = true
                 }
+                initDefaultView()
             }
 
         })
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                     "Off" -> isPumpThreeOpened = false
                     "On" -> isPumpThreeOpened = true
                 }
+                initDefaultView()
             }
 
         })
@@ -90,21 +94,18 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                 pumpOne.setValue("Off")
                 pumpTwo.setValue("Off")
                 pumpThree.setValue("Off")
-                mScannerView.startCamera()
+                rescan()
             }
-//            if(isPumpOneOpened){
-//                pumpOne.setValue("Off")
-//                mScannerView.startCamera()
-//            }else if(isPumpTwoOpened){
-//                pumpTwo.setValue("Off")
-//                mScannerView.startCamera()
-//            }else if (isPumpThreeOpened){
-//                pumpThree.setValue("Off")
-//                mScannerView.startCamera()
-//            }
         }
 
     }
+
+    private fun rescan(){
+        if (mScannerView!=null){
+            mScannerView.resumeCameraPreview(this)
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
@@ -122,10 +123,11 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             100 -> {
-                initScanner()
+                onStart()
             }
             else -> {
                 /* nothing to do in here */
