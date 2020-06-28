@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "939767322322",
+    "firebase_url": "https://water-refill-station-63235.firebaseio.com",
+    "project_id": "water-refill-station-63235",
+    "storage_bucket": "water-refill-station-63235.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939767322322:android:8d096778413e3ea82c7f0b",
+        "android_client_info": {
+          "package_name": "com.example.waterrefillstation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939767322322-fqj38kkf0d0j3lb6q8p2d9dfocujofhd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuwY5DD2gEKMligOyr_X6AhX-tLgFhz7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939767322322-fqj38kkf0d0j3lb6q8p2d9dfocujofhd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
