@@ -78,8 +78,8 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.value
                 when(value){
-                    "Off" -> isPumpTwoOpened = false
-                    "On" -> isPumpTwoOpened = true
+                    "Off" -> isPumpThreeOpened = false
+                    "On" -> isPumpThreeOpened = true
                 }
             }
 
