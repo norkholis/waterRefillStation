@@ -19,12 +19,19 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
     val database = FirebaseDatabase.getInstance()
     private lateinit var mScannerView: ZXingScannerView
-    private var isPumpOpened = false
+    private var isPumpOneOpened = false
+    private var isPumpTwoOpened = false
+    private var isPumpThreeOpened = false
     val myRef = database.reference
 
     private val narasiToScan = "Scan barcode untuk refill"
+    private val titleAirPutih = "Air Putih"
+    private val titleAirTeh = "Air Teh"
+    private val titleAirJeruk = "Air Jeruk"
 
     val pumpOne = myRef.child("pump_one").child("status")
+    val pumpTwo = myRef.child("pump_two").child("status")
+    val pumpThree = myRef.child("pump_three").child("status")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +47,54 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.value
-                isPumpOpened = value != "Off"
+                when(value){
+                    "Off" -> isPumpOneOpened = false
+                    "On" -> isPumpOneOpened = true
+                }
+            }
+
+        })
+
+        pumpTwo.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TAG", "Failed to read value.", error.toException())
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.value
+                when(value){
+                    "Off" -> isPumpTwoOpened = false
+                    "On" -> isPumpTwoOpened = true
+                }
+            }
+
+        })
+
+        pumpThree.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TAG", "Failed to read value.", error.toException())
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.value
+                when(value){
+                    "Off" -> isPumpTwoOpened = false
+                    "On" -> isPumpTwoOpened = true
+                }
             }
 
         })
 
         btn_enough.setOnClickListener {
-            if (isPumpOpened){
+            if(isPumpOneOpened){
                 pumpOne.setValue("Off")
-                text_pump.text = narasiToScan
-            }else{
-                //Do nothing
+                initScanner()
+            }else if(isPumpTwoOpened){
+                pumpTwo.setValue("Off")
+                initScanner()
+            }else if (isPumpThreeOpened){
+                pumpThree.setValue("Off")
+                initScanner()
             }
         }
 
@@ -96,15 +140,25 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
     private fun initDefaultView(){
-        text_pump.text = narasiToScan
+        if(!isPumpOneOpened&& !isPumpTwoOpened && !isPumpThreeOpened){
+            text_pump.text = narasiToScan
+        }
     }
 
     override fun handleResult(rawResult: Result?) {
-        if(rawResult!!.text == "pump_one"){
-            pumpOne.setValue("On")
-            text_pump.text = rawResult.text!!
-        }else{
-            //Do Nothing
+        when(rawResult!!.text){
+            "pump_one" -> {
+                pumpOne.setValue("On")
+                text_pump.text = "Anda sedang merefill dengan $titleAirPutih"
+            }
+            "pump_two" -> {
+                pumpTwo.setValue("On")
+                text_pump.text = "Anda sedang merefill dengan $titleAirJeruk"
+            }
+            "pump_three" -> {
+                pumpThree.setValue("On")
+                text_pump.text = "Anda sedang merefill dengan $titleAirTeh"
+            }
         }
     }
 }
