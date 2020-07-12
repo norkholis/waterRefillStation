@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     val pumpOne = myRef.child("pump_one").child("status")
     val pumpTwo = myRef.child("pump_two").child("status")
     val pumpThree = myRef.child("pump_three").child("status")
+    val saldo = myRef.child("saldo_user1")
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,17 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
         initScanner()
         initDefaultView()
+
+        saldo.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TAG", "Failed to read value.", error.toException())
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                text_saldo.text = "Saldo anda Rp. ${dataSnapshot.value}"
+            }
+
+        })
 
         pumpOne.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -101,9 +113,7 @@ class MainActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
     private fun rescan(){
-        if (mScannerView!=null){
-            mScannerView.resumeCameraPreview(this)
-        }
+        mScannerView.resumeCameraPreview(this)
     }
 
 

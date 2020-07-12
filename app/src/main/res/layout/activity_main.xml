@@ -18,6 +18,18 @@
         android:layout_marginTop="24dp"
         android:gravity="center_horizontal"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_saldo"
+        android:gravity="end"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        tools:text="Test ini saldo nya"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
